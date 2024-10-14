@@ -1,7 +1,7 @@
 package com.alek0m0m.librarytest_adventurexpbackend.controller;
 
-import org.example.adventurexpbackend.model.Equipment;
-import org.example.adventurexpbackend.service.EquipmentService;
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

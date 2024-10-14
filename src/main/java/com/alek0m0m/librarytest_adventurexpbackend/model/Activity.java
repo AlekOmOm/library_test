@@ -1,19 +1,15 @@
 package com.alek0m0m.librarytest_adventurexpbackend.model;
 
 import jakarta.persistence.*;
-
+import com.Alek0m0m.library.jpa.BaseEntity;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Activity {
+public class Activity extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
     private String description;
     private int pricePrPerson;
     private int timeMaxLimit;
@@ -61,21 +57,7 @@ public class Activity {
 
 
     // --------------- Get and Set methods ----------------
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
@@ -245,7 +227,7 @@ public class Activity {
     @Override
     public String toString() {
         return "Activity{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", pricePrPerson=" + pricePrPerson +

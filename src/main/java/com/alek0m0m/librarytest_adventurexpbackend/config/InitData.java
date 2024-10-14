@@ -1,13 +1,10 @@
 package com.alek0m0m.librarytest_adventurexpbackend.config;
 
-import org.example.adventurexpbackend.model.Activity;
-import org.example.adventurexpbackend.model.Booking;
-import org.example.adventurexpbackend.model.Equipment;
-import org.example.adventurexpbackend.model.EquipmentType;
-import org.example.adventurexpbackend.repository.*;
-import org.example.adventurexpbackend.service.ActivityService;
-import org.example.adventurexpbackend.service.EquipmentService;
-import org.example.adventurexpbackend.service.EquipmentTypeService;
+
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
+import com.alek0m0m.librarytest_adventurexpbackend.repository.*;
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

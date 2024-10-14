@@ -1,9 +1,10 @@
 package com.alek0m0m.librarytest_adventurexpbackend.service;
 
-import org.example.adventurexpbackend.config.SequenceResetter;
-import org.example.adventurexpbackend.model.*;
-import org.example.adventurexpbackend.repository.ActivityRepository;
-import org.example.adventurexpbackend.repository.BookingRepository;
+import com.Alek0m0m.library.spring.web.mvc.BaseService;
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+import com.alek0m0m.librarytest_adventurexpbackend.repository.*;
+import com.alek0m0m.librarytest_adventurexpbackend.config.SequenceResetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ActivityService {
+public class ActivityService extends BaseService<Activity, Long> {
 
-    private final ActivityRepository activityRepository;
     private final SequenceResetter sequenceResetter;
     private final BookingRepository bookingRepository;
 
     @Autowired
     public ActivityService(ActivityRepository activityRepository, BookingRepository bookingRepository,  SequenceResetter sequenceResetter) {
-        this.activityRepository = activityRepository;
+        super(activityRepository);
         this.sequenceResetter = sequenceResetter;
         this.bookingRepository = bookingRepository;
     }
@@ -32,26 +32,20 @@ public class ActivityService {
     // ------------------- Operations -------------------
 
     // ------------------- 1. Create -------------------
-    @Transactional
-    public Activity saveActivity(Activity activity) {
-        System.out.println("Debug: ActivityService: saveActivity");
-        System.out.println(" Activity: " + activity);
 
-        return activityRepository.save(activity);
-    }
 
     @Transactional
     public List<Activity> saveAllActivities(List<Activity> activities) {
         System.out.println("Debug: ActivityService: saveAllActivities");
         List<Activity> savedActivities = new ArrayList<>();
 
-        List<Activity> repoList = activityRepository.findAll();
+        List<Activity> repoList = findAll();
         if (!repoList.isEmpty()) {
             sequenceResetter.resetAutoIncrement("activity", repoList.getLast().getId() + 1);
         }
 
         for (Activity activity : activities) {
-            savedActivities.add(saveActivity(activity)); // Transactional
+            savedActivities.add(save(activity)); // Transactional
         }
 
         System.out.println();
@@ -78,37 +72,9 @@ public class ActivityService {
 
     // ------------------- 2. Read -------------------
 
-
     public Activity getActivity(Activity activity) {
-        System.out.println("Debug: ActivityService: getActivity");
-        System.out.println(" Activity: " + activity);
-        if (activity.getId() != null) {
-            return activityRepository.findById(activity.getId()).orElse(null);
-        } if (activity.getName() != null) {
-            return activityRepository.findByName(activity.getName());
-        } else {
-            throw new IllegalArgumentException("Activity not found");
-        }
+        return find(activity);
     }
-
-    public Activity getActivity(Long id) {
-        Activity activity = new Activity();
-        activity.setId(id);
-        return getActivity(activity);
-    }
-
-    public Activity getActivity(String name) {
-        Activity activity = new Activity();
-        activity.setName(name);
-        return getActivity(activity);
-    }
-
-
-    public List<Activity> getAllActivities() {
-        return new ArrayList<>(activityRepository.findAll());
-    }
-
-
 
     // ------------------- 3. Update -------------------
 
@@ -120,6 +86,7 @@ public class ActivityService {
         System.out.println(" Activity: " + activity);
         System.out.println(" ExistingActivity: " + existingActivityOpt);
         System.out.println();
+
         if (existingActivityOpt.isPresent()) {
             Activity existingActivity = updateActivityFromExistent(activity, existingActivityOpt);
 
@@ -132,7 +99,7 @@ public class ActivityService {
             }
             existingActivity.getEquipmentTypes().addAll(activity.getEquipmentTypes());
 
-            return activityRepository.save(existingActivity);
+            return save(existingActivity);
         } else {
             throw new IllegalArgumentException("Activity not found");
         }
@@ -157,9 +124,9 @@ public class ActivityService {
 
     @Transactional
     public void updateEquipmentForActivity(Long activityId, List<Equipment> newEquipmentList) {
-        Activity existingActivity = getActivity(activityId);
+        Activity existingActivity = findById(activityId);
         existingActivity.setEquipmentList(newEquipmentList);
-        activityRepository.save(existingActivity);
+        save(existingActivity);
     }
 
 
@@ -170,26 +137,11 @@ public class ActivityService {
     public void delete(Activity activity) {
         List<Booking> bookings = bookingRepository.findByActivity(activity);
         bookingRepository.deleteAll(bookings);
-        activityRepository.delete(activity);
+        getRepository().delete(activity);
     }
 
-    @Transactional
-    public void delete(long id) {
-        Activity activity = new Activity();
-        activity.setId(id);
-        delete(activity);
-    }
-
-    @Transactional
-    public void delete(String name) {
-        Activity activity = new Activity();
-        activity.setName(name);
-        delete(activity);
-    }
 
     // ------------------- 5. Other -------------------
-
-
 
     public Activity bookAndSave(Activity frontendActivity) {
         Activity repoActivity = getActivity(frontendActivity);
@@ -213,7 +165,7 @@ public class ActivityService {
         repoActivity.setTimeSlots(repoTimeSlots);
 
         // 3 step - save
-        return activityRepository.save(repoActivity);
+        return save(repoActivity);
     }
 
 

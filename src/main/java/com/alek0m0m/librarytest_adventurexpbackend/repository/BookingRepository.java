@@ -1,14 +1,15 @@
 package com.alek0m0m.librarytest_adventurexpbackend.repository;
 
-import org.example.adventurexpbackend.model.Activity;
-import org.example.adventurexpbackend.model.Booking;
+import com.Alek0m0m.library.spring.web.mvc.BaseRepository;
+import com.alek0m0m.librarytest_adventurexpbackend.model.Activity;
+import com.alek0m0m.librarytest_adventurexpbackend.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface BookingRepository extends JpaRepository<Booking, Long> {
+public interface BookingRepository extends BaseRepository<Booking, Long> {
 
     List<Booking> findByActivity(Activity activity);
 

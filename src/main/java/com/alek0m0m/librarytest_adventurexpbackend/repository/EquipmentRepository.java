@@ -1,15 +1,13 @@
 package com.alek0m0m.librarytest_adventurexpbackend.repository;
 
-import org.example.adventurexpbackend.model.Equipment;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.Alek0m0m.library.spring.web.mvc.BaseRepository;
+import com.alek0m0m.librarytest_adventurexpbackend.model.Equipment;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
+public interface EquipmentRepository extends BaseRepository<Equipment, Long> {
 
 
-
-
-    // Custom query to find equipment by name
-    Equipment findByName(String name);
 }

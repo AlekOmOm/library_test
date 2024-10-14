@@ -1,25 +1,37 @@
 package com.alek0m0m.librarytest_adventurexpbackend.controller;
 
-import org.example.adventurexpbackend.model.Activity;
-import org.example.adventurexpbackend.model.Equipment;
-import org.example.adventurexpbackend.service.ActivityService;
+import com.Alek0m0m.library.spring.web.mvc.BaseRESTController;
+import com.Alek0m0m.library.spring.web.mvc.BaseServiceInterface;
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.example.adventurexpbackend.service.ActivityService.setObjects;
+import static com.alek0m0m.librarytest_adventurexpbackend.service.ActivityService.setObjects;
 
 
 @RestController
 @RequestMapping("/Activity")
 @CrossOrigin(origins = "*")
-public class ActivityRESTController {
+public class ActivityRESTController extends BaseRESTController<Activity, Long> {
 
+    // endpoints from BaseRESTController in use:
+            // getAll, getById, delete
+
+    private final ActivityService activityService;
 
     @Autowired
-    private ActivityService activityService;
+    public ActivityRESTController(ActivityService service) {
+        super(service);
+        activityService = service;
+    }
+
+
 
     // ------------------- Operations -------------------
 
@@ -31,43 +43,32 @@ public class ActivityRESTController {
 
         activityService.multiplyEquipmentTypes(activity);
 
-        return ResponseEntity.ok(activityService.saveActivity(activity));
+        return ResponseEntity.ok(getService().save(activity));
     }
 
     // ------------------- 2. Read -------------------
-    @GetMapping
-    public ResponseEntity<List<Activity>> getAllActivities() {
-        List<Activity> activities = activityService.getAllActivities();
-
-        System.out.println("Retrieving all activities");
-        System.out.println("Activities retrieved: " + activities);
-
-        return ResponseEntity.ok(activities);
-    }
+        // getAll is already implemented with extension BaseRESTController
 
     @GetMapping("/types")
     public ResponseEntity<List<Activity>> getAllActivityTypes() {
-        return ResponseEntity.ok(activityService.getAllActivities());
+        return ResponseEntity.ok(getService().findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Activity> getActivityById(@PathVariable Long id) {
+        // getById is already implemented with extension BaseRESTController
 
-        return activityService.checkActivity(activityService.getActivity(id));
-    }
 
     @GetMapping("/{name}")
     public ResponseEntity<Activity> getActivityByName(@PathVariable String name) {
-        return activityService.checkActivity(activityService.getActivity(name));
+        return activityService.checkActivity(getService().findByName(name));
     }
 
     // ------------------- 3. Update -------------------
     @PutMapping("/{id}")
     public ResponseEntity<Activity> updateActivity(@PathVariable Long id, @RequestBody Activity activity) {
 
-        setObjects(id, activity, activityService.getActivity(id));
+        setObjects(id, activity, getService().findById(id));
 
-        return activityService.checkActivity(activityService.saveActivity(activity));
+        return activityService.checkActivity(getService().save(activity));
     }
 
 
@@ -87,13 +88,7 @@ public class ActivityRESTController {
 
     // ------------------- 4. Delete -------------------
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteActivityById(@PathVariable Long id) {
-        activityService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
+        // delete is already implemented with extension BaseRESTController
 
 
 

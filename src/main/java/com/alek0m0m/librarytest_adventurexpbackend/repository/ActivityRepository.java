@@ -1,16 +1,10 @@
 package com.alek0m0m.librarytest_adventurexpbackend.repository;
 
-import org.example.adventurexpbackend.model.Activity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.alek0m0m.librarytest_adventurexpbackend.model.Activity;
+import com.Alek0m0m.library.spring.web.mvc.BaseRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface ActivityRepository extends JpaRepository<Activity, Long> {
+public interface ActivityRepository extends BaseRepository<Activity, Long> {
 
-    @Override
-    List<Activity> findAll();
-
-    Activity findByName(String name);
 }

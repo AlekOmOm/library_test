@@ -1,7 +1,8 @@
 package com.alek0m0m.librarytest_adventurexpbackend.repository;
 
-import org.example.adventurexpbackend.model.TimeSlot;
+import com.Alek0m0m.library.spring.web.mvc.BaseRepository;
+import com.alek0m0m.librarytest_adventurexpbackend.model.TimeSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
+public interface TimeSlotRepository extends BaseRepository<TimeSlot, Long> {
 }

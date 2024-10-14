@@ -2,11 +2,10 @@ package com.alek0m0m.librarytest_adventurexpbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.example.adventurexpbackend.model.Activity;
-import org.example.adventurexpbackend.model.Booking;
-import org.example.adventurexpbackend.model.TimeSlot;
-import org.example.adventurexpbackend.service.ActivityService;
-import org.example.adventurexpbackend.service.BookingService;
+
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

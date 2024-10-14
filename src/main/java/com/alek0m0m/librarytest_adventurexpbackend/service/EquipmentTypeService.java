@@ -1,7 +1,9 @@
 package com.alek0m0m.librarytest_adventurexpbackend.service;
 
-import org.example.adventurexpbackend.model.EquipmentType;
-import org.example.adventurexpbackend.repository.EquipmentTypeRepository;
+import com.alek0m0m.librarytest_adventurexpbackend.model.*;
+import com.alek0m0m.librarytest_adventurexpbackend.service.*;
+import com.alek0m0m.librarytest_adventurexpbackend.repository.*;
+import com.alek0m0m.librarytest_adventurexpbackend.config.SequenceResetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

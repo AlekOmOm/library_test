@@ -1,5 +1,7 @@
 package com.alek0m0m.librarytest_adventurexpbackend.model;
 
+import com.Alek0m0m.library.jpa.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,11 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-public class TimeSlot {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@JsonIgnoreProperties({"name"})
+public class TimeSlot extends BaseEntity<Long> {
 
     private LocalDate date;
     private LocalTime startTime;
@@ -38,14 +37,6 @@ public class TimeSlot {
     }
 
     // Getters and Setters with automatic availability updates
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getDate() {
         return date;
@@ -108,7 +99,7 @@ public class TimeSlot {
     @Override
     public String toString() {
         return "TimeSlot{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", date=" + date +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
