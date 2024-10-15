@@ -91,13 +91,12 @@ public class ActivityService extends BaseService<Activity, Long> {
             Activity existingActivity = updateActivityFromExistent(activity, existingActivityOpt);
 
             if (activity.getEquipmentList() != null) {
-                existingActivity.getEquipmentList().clear();
+                existingActivity.setEquipmentList(activity.getEquipmentList());
             }
-            existingActivity.getEquipmentList().addAll(activity.getEquipmentList());
+
             if (activity.getEquipmentTypes() != null) {
-                existingActivity.getEquipmentTypes().clear();
+                existingActivity.setEquipmentTypes(activity.getEquipmentTypes());
             }
-            existingActivity.getEquipmentTypes().addAll(activity.getEquipmentTypes());
 
             return save(existingActivity);
         } else {
@@ -205,9 +204,15 @@ public class ActivityService extends BaseService<Activity, Long> {
 
     public static void setObjects(Long id, Activity activity, Activity existingActivity) {
         activity.setId(id);
-        activity.setEquipmentList(existingActivity.getEquipmentList());
-        activity.setEquipmentTypes(existingActivity.getEquipmentTypes());
-        activity.setTimeSlots(existingActivity.getTimeSlots());
+        if (activity.getEquipmentList() == null) {
+            activity.setEquipmentList(existingActivity.getEquipmentList());
+        }
+        if (activity.getEquipmentTypes() == null) {
+            activity.setEquipmentTypes(existingActivity.getEquipmentTypes());
+        }
+        if (activity.getTimeSlots() == null) {
+            activity.setTimeSlots(existingActivity.getTimeSlots());
+        }
     }
 
 

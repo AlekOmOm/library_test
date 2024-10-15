@@ -1,10 +1,9 @@
 package com.alek0m0m.librarytest_adventurexpbackend.service;
 
 
+import com.Alek0m0m.library.spring.web.mvc.BaseService;
 import com.alek0m0m.librarytest_adventurexpbackend.model.*;
-import com.alek0m0m.librarytest_adventurexpbackend.service.*;
 import com.alek0m0m.librarytest_adventurexpbackend.repository.*;
-import com.alek0m0m.librarytest_adventurexpbackend.config.SequenceResetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +15,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookingService {
+public class BookingService extends BaseService<Booking, Long> {
 
     private final BookingRepository bookingRepository;
-    private final ActivityService activityService;
+    private final ActivityService service;
 
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository, ActivityService activityService) {
+    public BookingService(BookingRepository bookingRepository, ActivityService service) {
+        super(bookingRepository);
         this.bookingRepository = bookingRepository;
-        this.activityService = activityService;
+        this.service = service;
     }
 
     // ----------------- Operations ---------------------
@@ -49,7 +49,7 @@ public class BookingService {
     // ----------------- CRUD Operations ---------------------
     @Transactional
     public Booking createBooking(Booking booking) {
-        Optional<Activity> activityOpt = Optional.ofNullable(activityService.getActivity(booking.getActivity()));
+        Optional<Activity> activityOpt = Optional.ofNullable(service.getActivity(booking.getActivity()));
 
         if (activityOpt.isEmpty()) {
             return null;
@@ -102,7 +102,7 @@ public class BookingService {
             booking.setActivity(null); // Set activity to null to keep the booking
             bookingRepository.save(booking);
         }
-        activityService.delete(activity);
+        service.delete(activity);
     }
 
     // ----------------- Helper Methods ---------------------
@@ -118,6 +118,6 @@ public class BookingService {
                 break;
             }
         }
-        activityService.saveActivity(activity); // Save the updated activity
+        service.saveActivity(activity); // Save the updated activity
     }
 }

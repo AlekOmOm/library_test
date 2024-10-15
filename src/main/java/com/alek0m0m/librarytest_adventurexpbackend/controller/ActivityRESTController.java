@@ -37,7 +37,7 @@ public class ActivityRESTController extends BaseRESTController<Activity, Long> {
 
     // ------------------- 1. Create -------------------
     @PostMapping
-    public ResponseEntity<Activity> createActivity(@RequestBody Activity activity) {
+    public ResponseEntity<Activity> createActivity(@RequestBody Activity activity ) {
         System.out.println("createActivity");
         System.out.println(" Activity: " + activity);
 
